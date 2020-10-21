@@ -67,8 +67,14 @@ typedef void (*VectorFreeFunction)(void *elemAddr);
  * vector using those functions defined in this file.
  */
 
-typedef struct {
-  // to be filled in by you
+typedef struct
+{
+  void *elems;
+  int logLen;
+  int initialAllocLen;
+  int allocLen;
+  int elemSize;
+  VectorFreeFunction freefn;
 } vector;
 
 /** 
@@ -144,7 +150,7 @@ void VectorDispose(vector *v);
  */
 
 int VectorLength(const vector *v);
-	   
+
 /**
  * Method: VectorNth
  * -----------------
@@ -159,10 +165,10 @@ int VectorLength(const vector *v);
  * careful when using it.  In particular, a pointer returned by VectorNth 
  * becomes invalid after any calls which involve insertion into, deletion from or 
  * sorting of the vector, as all of these may rearrange the elements to some extent.
- */ 
+ */
 
 void *VectorNth(const vector *v, int position);
-					  
+
 /**
  * Function: VectorInsert
  * ----------------------
@@ -187,7 +193,7 @@ void VectorInsert(vector *v, const void *elemAddr, int position);
  */
 
 void VectorAppend(vector *v, const void *elemAddr);
-  
+
 /**
  * Function: VectorReplace
  * -----------------------
@@ -218,7 +224,7 @@ void VectorReplace(vector *v, const void *elemAddr, int position);
  */
 
 void VectorDelete(vector *v, int position);
-  
+
 /* 
  * Function: VectorSearch
  * ----------------------
@@ -239,7 +245,7 @@ void VectorDelete(vector *v, int position);
  * find anything, allowing this case means you can search an entirely empty
  * vector from 0 without getting an assert).  An assert is raised if the
  * comparator or the key is NULL.
- */  
+ */
 
 int VectorSearch(const vector *v, const void *key, VectorCompareFunction searchfn, int startIndex, bool isSorted);
 

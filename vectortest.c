@@ -48,20 +48,20 @@ static void TestAppend(vector *alphabet)
 {
   char ch;
   int i;
-  
-  for (ch = 'A'; ch <= 'Z'; ch++)   //  Start with letters of alphabet
+
+  for (ch = 'A'; ch <= 'Z'; ch++) //  Start with letters of alphabet
     VectorAppend(alphabet, &ch);
   fprintf(stdout, "First, here is the alphabet: ");
   VectorMap(alphabet, PrintChar, stdout);
-  
-  for (i = 0; i < 10; i++) {	    // Append digit characters
-    ch = '0' + i;                   // convert int to ASCII digit character
+
+  for (i = 0; i < 10; i++)
+  {               // Append digit characters
+    ch = '0' + i; // convert int to ASCII digit character
     VectorAppend(alphabet, &ch);
   }
   fprintf(stdout, "\nAfter append digits: ");
   VectorMap(alphabet, PrintChar, stdout);
 }
-
 
 /**
  * Function: TestSearch
@@ -75,12 +75,12 @@ static void TestAppend(vector *alphabet)
 static void TestSearch(vector *v, char ch)
 {
   int foundSorted, foundNot;
-  
-  foundSorted = VectorSearch(v, &ch, CompareChar, 0, true); // Test sorted 
-  foundNot = VectorSearch(v, &ch, CompareChar, 0, false);   // Not sorted 
-  fprintf(stdout,"\nFound '%c' in sorted array? %s. How about unsorted? %s.", 
-	  ch, YES_OR_NO((foundSorted != -1)), 
-	  YES_OR_NO((foundNot != -1)));
+
+  foundSorted = VectorSearch(v, &ch, CompareChar, 0, true); // Test sorted
+  foundNot = VectorSearch(v, &ch, CompareChar, 0, false);   // Not sorted
+  fprintf(stdout, "\nFound '%c' in sorted array? %s. How about unsorted? %s.",
+          ch, YES_OR_NO((foundSorted != -1)),
+          YES_OR_NO((foundNot != -1)));
 }
 
 /**
@@ -92,10 +92,10 @@ static void TestSearch(vector *v, char ch)
 
 static void TestSortSearch(vector *alphabet)
 {
-  VectorSort(alphabet, CompareChar);	 // Sort into order again
+  VectorSort(alphabet, CompareChar); // Sort into order again
   fprintf(stdout, "\nAfter sorting: ");
   VectorMap(alphabet, PrintChar, stdout);
-  TestSearch(alphabet, 'J');	// Test searching capabilities
+  TestSearch(alphabet, 'J'); // Test searching capabilities
   TestSearch(alphabet, '$');
 }
 
@@ -109,12 +109,13 @@ static void TestSortSearch(vector *alphabet)
 static void TestAt(vector *alphabet)
 {
   int i;
-  
-  for (i = 0; i < VectorLength(alphabet); i += 2) { // Lowercase every other
-    char *elem = (char *) VectorNth(alphabet, i);
+
+  for (i = 0; i < VectorLength(alphabet); i += 2)
+  { // Lowercase every other
+    char *elem = (char *)VectorNth(alphabet, i);
     *elem = tolower(*elem);
   }
-  
+
   fprintf(stdout, "\nAfter lowercase every other letter: ");
   VectorMap(alphabet, PrintChar, stdout);
 }
@@ -133,17 +134,17 @@ static void TestInsertDelete(vector *alphabet)
 {
   char ch = '-';
   int i;
-  
-  for (i = 3; i < VectorLength(alphabet); i += 4) // Insert dash every 4th char 
+
+  for (i = 3; i < VectorLength(alphabet); i += 4) // Insert dash every 4th char
     VectorInsert(alphabet, &ch, i);
   fprintf(stdout, "\nAfter insert dashes: ");
   VectorMap(alphabet, PrintChar, stdout);
-  
-  for (i = 3; i < VectorLength(alphabet); i += 3) // Delete every 4th char 
+
+  for (i = 3; i < VectorLength(alphabet); i += 3) // Delete every 4th char
     VectorDelete(alphabet, i);
   fprintf(stdout, "\nAfter deleting dashes: ");
   VectorMap(alphabet, PrintChar, stdout);
-    
+
   ch = '!';
   VectorInsert(alphabet, &ch, VectorLength(alphabet));
   VectorDelete(alphabet, VectorLength(alphabet) - 1);
@@ -162,13 +163,15 @@ static void TestReplace(vector *alphabet)
 {
   int found = 0;
   char toFind = 's', toReplace = '*';
-  
-  while (found < VectorLength(alphabet)) {
+
+  while (found < VectorLength(alphabet))
+  {
     found = VectorSearch(alphabet, &toFind, CompareChar, found, false);
-    if (found == -1) break;
+    if (found == -1)
+      break;
     VectorReplace(alphabet, &toReplace, found);
   }
-  
+
   fprintf(stdout, "\nAfter changing all %c to %c: ", toFind, toReplace);
   VectorMap(alphabet, PrintChar, stdout);
 }
@@ -217,13 +220,14 @@ static void InsertPermutationOfNumbers(vector *numbers, long n, long d)
   long k;
   long residue;
   fprintf(stdout, "Generating all of the numbers between 0 and %ld (using some number theory). ", d - 1);
-  fflush(stdout); // force echo to the screen... 
+  fflush(stdout); // force echo to the screen...
 
-  for (k = 0; k < d; k++) {
-    residue = (long) (((long long)k * (long long) n) % d);
+  for (k = 0; k < d; k++)
+  {
+    residue = (long)(((long long)k * (long long)n) % d);
     VectorAppend(numbers, &residue);
   }
-  
+
   assert(VectorLength(numbers) == d);
   fprintf(stdout, "[All done]\n");
   fflush(stdout);
@@ -261,9 +265,10 @@ static void SortPermutation(vector *vectorToSort)
   fflush(stdout);
   fprintf(stdout, "Confirming everything was properly sorted. ");
   fflush(stdout);
-  sortedVector = vectorToSort; // need better name now that it's sorted... 
-  for (residue = 0; residue < VectorLength(sortedVector); residue++) {
-    embeddedLong = *(const long *) VectorNth(sortedVector, residue);
+  sortedVector = vectorToSort; // need better name now that it's sorted...
+  for (residue = 0; residue < VectorLength(sortedVector); residue++)
+  {
+    embeddedLong = *(const long *)VectorNth(sortedVector, residue);
     assert(embeddedLong == residue);
   }
   fprintf(stdout, "[Yep, it's sorted]\n");
@@ -285,13 +290,15 @@ static void DeleteEverythingVerySlowly(vector *numbers)
   fprintf(stdout, "Erasing everything in the vector by repeatedly deleting the 100th-to-last remaining element (be patient).\n");
   fflush(stdout);
   largestOriginalNumber = *(long *)VectorNth(numbers, VectorLength(numbers) - 1);
-  while (VectorLength(numbers) >= 100) {
+  while (VectorLength(numbers) >= 100)
+  {
     VectorDelete(numbers, VectorLength(numbers) - 100);
-    assert(largestOriginalNumber == *(long *)VectorNth(numbers, VectorLength(numbers) -1));
+    assert(largestOriginalNumber == *(long *)VectorNth(numbers, VectorLength(numbers) - 1));
   }
   fprintf(stdout, "\t[Okay, almost done... deleting the last 100 elements... ");
   fflush(stdout);
-  while (VectorLength(numbers) > 0) VectorDelete(numbers, 0);
+  while (VectorLength(numbers) > 0)
+    VectorDelete(numbers, 0);
   fprintf(stdout, "and we're all done... whew!]\n");
   fflush(stdout);
 }
@@ -314,7 +321,7 @@ static const long kEvenLargerPrime = 3021377;
 static void ChallengingTest()
 {
   vector lotsOfNumbers;
-  fprintf(stdout, "\n\n------------------------- Starting the more advanced tests...\n");  
+  fprintf(stdout, "\n\n------------------------- Starting the more advanced tests...\n");
   VectorNew(&lotsOfNumbers, sizeof(long), NULL, 4);
   InsertPermutationOfNumbers(&lotsOfNumbers, kLargePrime, kEvenLargerPrime);
   SortPermutation(&lotsOfNumbers);
@@ -334,8 +341,8 @@ static void ChallengingTest()
 
 static void FreeString(void *elemAddr)
 {
-  char *s = *(char **) elemAddr;
-  free(s); 
+  char *s = *(char **)elemAddr;
+  free(s);
 }
 
 /** 
@@ -349,7 +356,7 @@ static void FreeString(void *elemAddr)
 static void PrintString(void *elemAddr, void *auxData)
 {
   char *word = *(char **)elemAddr;
-  FILE *fp = (FILE *) auxData;
+  FILE *fp = (FILE *)auxData;
   fprintf(fp, "\t%s\n", word);
 }
 
@@ -372,21 +379,22 @@ static void PrintString(void *elemAddr, void *auxData)
 static void MemoryTest()
 {
   int i;
-  const char * const kQuestionWords[] = {"who", "what", "where", "how", "why"};
+  const char *const kQuestionWords[] = {"who", "what", "where", "how", "why"};
   const int kNumQuestionWords = sizeof(kQuestionWords) / sizeof(kQuestionWords[0]);
   vector questionWords;
   char *questionWord;
-  
+
   fprintf(stdout, "\n\n------------------------- Starting the memory tests...\n");
   fprintf(stdout, "Creating a vector designed to store dynamically allocated C-strings.\n");
   VectorNew(&questionWords, sizeof(char *), FreeString, kNumQuestionWords);
   fprintf(stdout, "Populating the char * vector with the question words.\n");
-  for (i = 0; i < kNumQuestionWords; i++) {
+  for (i = 0; i < kNumQuestionWords; i++)
+  {
     questionWord = malloc(strlen(kQuestionWords[i]) + 1);
     strcpy(questionWord, kQuestionWords[i]);
-    VectorInsert(&questionWords, &questionWord, 0);  // why the ampersand? isn't questionWord already a pointer?
+    VectorInsert(&questionWords, &questionWord, 0); // why the ampersand? isn't questionWord already a pointer?
   }
-  
+
   fprintf(stdout, "Mapping over the char * vector (ask yourself: why are char **'s passed to PrintString?!!)\n");
   VectorMap(&questionWords, PrintString, stdout);
   fprintf(stdout, "Finally, destroying the char * vector.\n");
@@ -401,11 +409,10 @@ static void MemoryTest()
  8 the final test is hard.
  */
 
-int main(int ignored, char **alsoIgnored) 
+int main(int ignored, char **alsoIgnored)
 {
   SimpleTest();
   ChallengingTest();
   MemoryTest();
   return 0;
 }
-
