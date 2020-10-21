@@ -5,11 +5,12 @@
 #include <assert.h>
 #include <search.h>
 
+static const int defaultSize = 4;
 void VectorNew(vector *v, int elemSize, VectorFreeFunction freeFn, int initialAllocation)
 {
     assert((elemSize > 0) && (initialAllocation >= 0));
     if (initialAllocation == 0)
-        initialAllocation = 4;
+        initialAllocation = defaultSize;
     v->logLen = 0;
     v->initialAllocLen = initialAllocation;
     v->allocLen = initialAllocation;
