@@ -72,8 +72,15 @@ typedef void (*HashSetFreeFunction)(void *elemAddr);
  * of the six hashset-related functions described below.
  */
 
-typedef struct {
-  // to be filled in by you
+typedef struct
+{
+  vector *elems;
+  int elemSize;
+  int numBuckets;
+  int logLen;
+  HashSetHashFunction hashfn;
+  HashSetCompareFunction cmpfn;
+  HashSetFreeFunction freefn;
 } hashset;
 
 /**
@@ -115,8 +122,8 @@ typedef struct {
  *    - comparefn is non-NULL
  */
 
-void HashSetNew(hashset *h, int elemSize, int numBuckets, 
-		HashSetHashFunction hashfn, HashSetCompareFunction comparefn, HashSetFreeFunction freefn);
+void HashSetNew(hashset *h, int elemSize, int numBuckets,
+                HashSetHashFunction hashfn, HashSetCompareFunction comparefn, HashSetFreeFunction freefn);
 
 /**
  * Function: HashSetDispose
@@ -195,5 +202,5 @@ void *HashSetLookup(const hashset *h, const void *elemAddr);
  */
 
 void HashSetMap(hashset *h, HashSetMapFunction mapfn, void *auxData);
-     
+
 #endif

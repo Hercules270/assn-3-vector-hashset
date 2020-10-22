@@ -119,7 +119,6 @@ int VectorSearch(const vector *v, const void *key, VectorCompareFunction searchF
     size_t size = v->logLen - startIndex;
     const int elemSize = v->elemSize;
     void *result;
-
     if (isSorted)
     {
         result = bsearch(key, base, v->logLen - startIndex, v->elemSize, searchFn);
